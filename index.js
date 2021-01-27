@@ -1,6 +1,7 @@
 // 依赖引入
 const mineflayer = require('mineflayer')
 const mineflayerViewer = require('prismarine-viewer').mineflayer
+const repl = require("repl");
 
 // 登录主模块
 if (process.argv.length < 4 || process.argv.length > 7) {
@@ -38,6 +39,17 @@ bot.once('spawn', () => {
   // setTimeout(() =>bot.chat('/server Test'), 3000)
   // setTimeout(() =>bot.chat('/gamemode spectator'), 6000)
   // setTimeout(() =>bot.chat('/tp 624 9999 204'), 12000)
+
+  // 5秒钟后开启命令行模式
+  setTimeout(() => {
+    const r = repl.start("> ");
+    r.context.bot = bot;
+    r.context.c = bot.chat;
+
+    r.on("exit", () => {
+      bot.end();
+    });
+  }, 5000);
 })
 
 
