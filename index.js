@@ -55,12 +55,12 @@ bot.once('spawn', () => {
 
 // hello模块
 bot.chatAddPattern(
-  /(helo|hello|Hello)/,
+  /^.+<(.+)>.+[hello|Hello].+$/,
   'hello',
   'Someone says hello'
 )
-const hi =  () => {
-  bot.chat('Hi!')
+const hi =  (username) => {
+  bot.chat(`Hi~ ${username}`)
 }
 bot.on('hello', hi)
 
@@ -100,11 +100,36 @@ bot.chatAddPattern(
 )
 const tpa_to = (username) => {
     console.log(`Sent a tpa_request to ${username}`)
-    bot.chat(`Sent a tpa_request to ${username}`)
+    const tpmsgs = [
+      `${username}大哥哥, 人家来了啦`,
+      `${username}你叫我? 大臭猪来咯`,
+      `Sent a tpa_request to ${username}`,
+      `来了来了`,
+      `${username}别催了在路上了`,
+      `主人${username}, 是你在召唤我吗`,
+      `当前任务已更新：讨伐${username}`,
+      `saber·nybot 遵从召唤而来，${username}你就是我的master吗`,
+      `${username}你把我召唤过来了 你要实现我100个愿望`,
+      `${username}你把我召唤过来了, pay100岛币给我`,
+      `啊～妾身乃司掌混沌之龙，汝召唤吾所为何事？`,
+      `咱是魅魔desu！既然把咱召唤了出来就要负责！${username}快付给我一千岛币，不然就把你榨干`,
+      `不要靠近若叶，若叶已经没有钱了！`,
+    ]
+    bot.chat(tpmsgs[Math.floor((Math.random()*tpmsgs.length))])
     bot.chat(`/tpa ${username}`)
 }
 bot.on('tpa_to', tpa_to)
 
+// roll模块
+bot.chatAddPattern(
+  /(ro)/,
+  'roll',
+  'Bot will go roll a number from 1-6'
+)
+const roll =  () => {
+  bot.chat(Math.floor((Math.random()*6+1)))
+}
+bot.on('roll', roll)
 
 // sleep 模块，可以把下面第二行的 sleepny 改成你的自定义指令
 bot.chatAddPattern(
