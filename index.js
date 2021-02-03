@@ -55,7 +55,7 @@ bot.once('spawn', () => {
 
 // hello模块
 bot.chatAddPattern(
-  /^.+<(.+)>.+[hello|Hello].+$/,
+  /^.+<(.+)>.+(hello)|(Hello).+$/,
   'hello',
   'Someone says hello'
 )
