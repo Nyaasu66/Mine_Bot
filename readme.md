@@ -19,11 +19,12 @@
    
 5. 常用对话关键词：
 ```
-helo / hello / Hello - Hi!
+hello / Hello        - Hi~ Player
 sleepny / zzz        - 睡觉
 gosny                - 切换到生存服
 cmny                 - tpa到玩家
 gotny                - 切换到test服
+ro                   - roll一个数字(1-6)
 ```
 
 6. 要修改指令内容详见 index.js 文件内注释
