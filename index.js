@@ -131,6 +131,34 @@ const roll =  () => {
 }
 bot.on('roll', roll)
 
+// rnd模块
+bot.chatAddPattern(
+  /^.+r([1-9])d$/,
+  'rnd',
+  'Bot will go roll n numbers from 1-100'
+)
+const rnd = (n) => {
+  let rxd = []
+  let postmsg = ``
+  for (let i=0; i<n; i++) {
+    rxd[i] = Math.floor(Math.random()*100+1)
+    i === 0 ? postmsg = `${rxd[i]}` : postmsg += `+${rxd[i]}`
+  }
+  bot.chat(`（扔骰子）嗯，结果是${n}D100=${postmsg}=${eval(rxd.join("+"))}`)
+}
+bot.on('rnd', rnd)
+
+// roll 100模块
+bot.chatAddPattern(
+  /(rd)/,
+  'rolld',
+  'Bot will go roll a number from 1-100'
+)
+const rolld =  () => {
+  bot.chat(Math.floor((Math.random()*100+1)))
+}
+bot.on('rolld', rolld)
+
 // sleep 模块，可以把下面第二行的 sleepny 改成你的自定义指令
 bot.chatAddPattern(
   /(sleepny|zzz)/,
