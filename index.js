@@ -26,6 +26,22 @@ const bot = mineflayer.createBot({
 bot.on('kicked', (reason, loggedIn) => console.log(reason, loggedIn))
 bot.on('error', err => console.log(err))
 
+// 输入模块
+const r = repl.start({ prompt: '> ', preview: false});
+r.context.bot = bot;
+r.context.c = bot.chat; // 聊天快捷指令一：c("内容")
+r.on("exit", () => {
+  bot.end();
+});
+// 聊天快捷指令二：.t 内容
+r.defineCommand('t', {
+  help: '输入聊天内容',
+  action(msg) {
+    this.clearBufferedCommand();
+    bot.chat(`${msg}`);
+    this.displayPrompt();
+  }
+});
 
 bot.once('spawn', () => {
 
@@ -35,27 +51,26 @@ bot.once('spawn', () => {
 
   // 解除下面第一行注释，会在登录后3秒钟会自动切换至生存服，其余命令同理
   // setTimeout(() =>bot.chat('/server Survival'), 3000)
-
   // setTimeout(() =>bot.chat('/server Test'), 3000)
   // setTimeout(() =>bot.chat('/gamemode spectator'), 6000)
   // setTimeout(() =>bot.chat('/tp 624 9999 204'), 12000)
 
-  // 5秒钟后开启命令行模式
-  setTimeout(() => {
-    const r = repl.start("> ");
-    r.context.bot = bot;
-    r.context.c = bot.chat;
-
-    r.on("exit", () => {
-      bot.end();
-    });
-  }, 5000);
+  // 解除下面第二行注释，可开启开机语音包
+  const turing = ["早","好耶","开冲", "早啊","awa", "早上好，夜之城", "铛铛铛，懒狗起床啦"];
+  // setTimeout(() =>bot.chat(turing[Math.floor((Math.random()*turing.length))]),5000)
 })
 
 
+// 控制台输出模块
+bot.on('message', (message) => {
+  r.displayPrompt(true)
+  console.log('\r'+message.toAnsi()) // 研究了1整天，找到了不打扰输入的灵魂:'\r'
+  r.displayPrompt(true)
+})
+
 // hello模块
 bot.chatAddPattern(
-  /^.+<(.+)>.+(hello)|(Hello).+$/,
+  /^.+<(.+)>.+[Hh]ello.*$/,
   'hello',
   'Someone says hello'
 )
@@ -85,12 +100,6 @@ const go_test =  () => {
   bot.chat('/server Test')
 }
 bot.on('go_test', go_test)
-
-// 控制台输出模块
-bot.on('message', (message) => {
-  console.log(message.toAnsi())
-})
-
 
 // tpa 模块，可以把下面第二行的 cmny 改成你的自定义指令, 其他内容不要动
 bot.chatAddPattern(
