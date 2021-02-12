@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "mineflayer": "^2.41.0",
+    "prismarine-viewer": "^1.13.3"
+  }
+}
